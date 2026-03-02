@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harga Lantai — Project Pricing</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=DM+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f0eb;
+  --bg2: #ede8e1;
+  --surface: #faf7f3;
+  --line: #d4ccc3;
+  --line2: #c5bdb4;
+  --terracotta: #c4623a;
+  --terracotta-light: #e8906f;
+  --terracotta-pale: #f2ddd4;
+  --purple: #6b5b7b;
+  --purple-light: #9b87b0;
+  --purple-pale: #e8e2ef;
+  --green: #4a6741;
+  --green-light: #7a9e72;
+  --green-pale: #dce8da;
+  --text: #2a2218;
+  --text2: #5a5048;
+  --text3: #8a7e72;
+  --warn-bg: #fdf3e7;
+  --warn: #c47a1a;
+  --danger-bg: #fdecea;
+  --danger: #b83c2a;
+  --good-bg: #e8f2e6;
+  --good: #3a6332;
+  --mono: 'DM Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.page {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+.header {
+  border-top: 2px solid var(--terracotta);
+  padding-top: 20px;
+  margin-bottom: 48px;
+}
+.header-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 10px;
+}
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.header h1 em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--terracotta);
+}
+.header-sub {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--text3);
+  font-family: var(--mono);
+}
+.section {
+  margin-bottom: 2px;
+  background: var(--surface);
+  border-left: 3px solid transparent;
+  transition: border-color 0.2s;
+}
+.section:focus-within { border-left-color: var(--terracotta); }
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.section-num { font-family: var(--mono); font-size: 0.65rem; color: var(--text3); letter-spacing: 0.1em; }
+.section-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text2); flex: 1; }
+.section-tag { font-family: var(--mono); font-size: 0.65rem; padding: 2px 8px; border-radius: 2px; letter-spacing: 0.05em; }
+.tag-tc { background: var(--terracotta-pale); color: var(--terracotta); }
+.tag-pu { background: var(--purple-pale); color: var(--purple); }
+.tag-gr { background: var(--green-pale); color: var(--green); }
+.tag-warn { background: var(--warn-bg); color: var(--warn); }
+.section-body { padding: 20px 24px; }
+label.field-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+.input-wrap {
+  display: flex;
+  align-items: center;
+  border-bottom: 1.5px solid var(--line2);
+  transition: border-color 0.2s;
+  padding-bottom: 4px;
+}
+.input-wrap:focus-within { border-color: var(--terracotta); }
+.input-prefix, .input-suffix { font-family: var(--mono); font-size: 0.8rem; color: var(--text3); padding: 0 4px; }
+input[type=number], input[type=text] {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--mono);
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: 500;
+  padding: 4px 4px;
+  -moz-appearance: textfield;
+  width: 100%;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+select {
+  width: 100%;
+  background: var(--bg2);
+  border: 1.5px solid var(--line2);
+  outline: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text);
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7e72' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+select:focus { border-color: var(--terracotta); }
+.field-group { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.field { margin-bottom: 18px; }
+.team-grid { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 12px; }
+.team-grid th {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 6px 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+.team-grid td { padding: 6px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.team-grid td input { font-size: 0.88rem; padding: 4px 6px; }
+.team-grid td .input-wrap { padding-bottom: 2px; }
+.team-grid tr.total-row td {
+  border-bottom: none;
+  border-top: 2px solid var(--line2);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding-top: 10px;
+  color: var(--text2);
+}
+.btn-remove { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 1.1rem; line-height: 1; padding: 2px 6px; transition: color 0.15s; }
+.btn-remove:hover { color: var(--terracotta); }
+.btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--terracotta);
+  background: var(--terracotta-pale);
+  border: none;
+  padding: 8px 14px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.15s;
+}
+.btn-add:hover { background: #e8c5b8; }
+.capacity-bar-wrap { margin-top: 12px; }
+.capacity-bar-track { height: 6px; background: var(--bg2); overflow: hidden; margin: 8px 0 6px; }
+.capacity-bar-fill { height: 100%; transition: width 0.4s ease, background 0.4s; }
+.capacity-labels { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.68rem; color: var(--text3); }
+.costs-list { margin-bottom: 10px; }
+.cost-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.cost-row .cost-name { flex: 2; font-size: 0.85rem; color: var(--text2); }
+.cost-row .cost-val { font-family: var(--mono); font-size: 0.85rem; color: var(--text); min-width: 80px; text-align: right; }
+.add-cost-row { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+.add-cost-row input[type=text] { flex: 2; border: 1.5px solid var(--line2); padding: 8px 10px; font-size: 0.88rem; background: var(--bg2); }
+.add-cost-row input[type=number] { flex: 1; border: 1.5px solid var(--line2); padding: 8px 10px; font-size: 0.88rem; background: var(--bg2); }
+.add-cost-row input:focus { border-color: var(--terracotta); outline: none; }
+.toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.toggle-label { font-size: 0.85rem; color: var(--text2); flex: 1; }
+.toggle { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; inset: 0; background: var(--line2); cursor: pointer; transition: background 0.2s; border-radius: 20px; }
+.toggle-slider:before { content: ''; position: absolute; height: 14px; width: 14px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: transform 0.2s; }
+.toggle input:checked + .toggle-slider { background: var(--terracotta); }
+.toggle input:checked + .toggle-slider:before { transform: translateX(16px); }
+.value-optional { opacity: 0.45; transition: opacity 0.3s; pointer-events: none; }
+.value-optional.active { opacity: 1; pointer-events: auto; }
+.value-hint { font-size: 0.78rem; color: var(--text3); font-style: italic; margin-top: 6px; line-height: 1.5; }
+.divider { height: 1px; background: var(--line); margin: 16px 0; }
+.section-divider { height: 8px; background: var(--bg); }
+.results-section { background: var(--text); color: var(--bg); margin-top: 8px; }
+.results-header { display: flex; align-items: baseline; gap: 12px; padding: 18px 24px 14px; border-bottom: 1px solid #3a3228; }
+.results-header .section-num { color: #6a6058; }
+.results-header .section-title { color: #c5bdb4; }
+.price-trio { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: #3a3228; margin-bottom: 1px; }
+.price-trio.two-col { grid-template-columns: repeat(2,1fr); }
+.price-cell { background: var(--text); padding: 20px; text-align: center; }
+.price-cell .pc-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+.price-cell.min .pc-label { color: #e8b96a; }
+.price-cell.rec .pc-label { color: var(--terracotta-light); }
+.price-cell.val .pc-label { color: var(--green-light); }
+.price-cell .pc-amount { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; line-height: 1.1; }
+.price-cell.min .pc-amount { color: #f5c97a; }
+.price-cell.rec .pc-amount { color: var(--terracotta-light); }
+.price-cell.val .pc-amount { color: var(--green-light); }
+.price-cell .pc-sub { font-family: var(--mono); font-size: 0.65rem; color: #6a6058; margin-top: 4px; }
+.breakdown-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 1px; background: #1e1a16; }
+.breakdown-table td { padding: 8px 16px; border-bottom: 1px solid #2a2520; }
+.breakdown-table td:last-child { text-align: right; font-family: var(--mono); }
+.breakdown-table .bd-label { color: #8a7e72; }
+.breakdown-table .bd-val { color: #d4ccc3; }
+.breakdown-table tr.bd-total td { border-top: 1px solid #3a3228; border-bottom: none; font-weight: 600; padding-top: 12px; color: var(--bg); }
+.alerts { margin-top: 1px; }
+.alert { display: flex; align-items: flex-start; gap: 12px; padding: 14px 24px; font-size: 0.82rem; line-height: 1.5; border-left: 3px solid transparent; animation: fadein 0.3s ease; }
+@keyframes fadein { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+.alert-good { background: #1a2218; color: #8ec987; border-color: var(--green-light); }
+.alert-warn { background: #241e0e; color: #e8b96a; border-color: var(--warn); }
+.alert-danger { background: #221210; color: #e8877a; border-color: var(--danger); }
+.alert-info { background: #1a1728; color: #a89ac7; border-color: var(--purple-light); }
+.alert-icon { font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
+.alert strong { display: block; font-weight: 600; margin-bottom: 2px; }
+.rate-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 24px; background: #252018; font-size: 0.8rem; color: #8a7e72; }
+.rate-row span:last-child { font-family: var(--mono); font-size: 0.95rem; color: var(--bg); }
+.hint { font-family: var(--mono); font-size: 0.68rem; color: var(--text3); margin-top: 4px; }
+.mt8 { margin-top: 8px; }
+.mt16 { margin-top: 16px; }
+@media (max-width: 600px) {
+  .field-group { grid-template-columns: 1fr; }
+  .price-trio, .price-trio.two-col { grid-template-columns: 1fr; }
+  .team-grid th:nth-child(3), .team-grid td:nth-child(3) { display: none; }
+  .add-cost-row { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-eyebrow">Creative Studio · Pricing Tool</div>
+    <h1>Harga <em>Lantai</em></h1>
+    <div class="header-sub">Kalkulasi harga minimum proyek secara jujur & akurat</div>
+  </div>
+
+  <!-- 01 TEAM -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Tim & Jam Kerja</span>
+      <span class="section-tag tag-tc">Production Cost</span>
+    </div>
+    <div class="section-body">
+      <table class="team-grid">
+        <thead>
+          <tr>
+            <th>Nama / Peran</th>
+            <th>Jam</th>
+            <th>Rate (Rp/hr)</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="teamBody"></tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td colspan="3">Total Labor Cost</td>
+            <td id="laborTotal" colspan="2">Rp 0</td>
+          </tr>
+        </tfoot>
+      </table>
+      <button class="btn-add" onclick="addTeamRow()">+ Tambah Anggota</button>
+
+      <div class="divider mt16"></div>
+      <div class="field-group mt8">
+        <div class="field">
+          <label class="field-label">PM / Koordinasi Fee</label>
+          <div class="input-wrap">
+            <input type="number" id="pmFee" value="12" min="0" max="50" oninput="calc()">
+            <span class="input-suffix">% dari labor</span>
+          </div>
+          <div class="hint">10–15% untuk proyek tim ≥2 orang</div>
+        </div>
+        <div class="field">
+          <label class="field-label">Margin Keuntungan</label>
+          <div class="input-wrap">
+            <input type="number" id="margin" value="20" min="0" max="99" oninput="calc()">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- 02 CAPACITY -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Kapasitas Tim Bulan Ini</span>
+      <span class="section-tag tag-pu">Capacity Check</span>
+    </div>
+    <div class="section-body">
+      <div class="field-group">
+        <div class="field">
+          <label class="field-label">Total jam tersedia tim</label>
+          <div class="input-wrap">
+            <input type="number" id="totalAvail" value="160" min="1" oninput="calc()">
+            <span class="input-suffix">hrs/bulan</span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">Jam terpakai (recurring)</label>
+          <div class="input-wrap">
+            <input type="number" id="recurringHrs" value="80" min="0" oninput="calc()">
+            <span class="input-suffix">hrs</span>
+          </div>
+        </div>
+      </div>
+      <div class="capacity-bar-wrap">
+        <div class="capacity-labels">
+          <span id="capLabel1">Sisa kapasitas: — hrs</span>
+          <span id="capLabel2">Proyek ini butuh: — hrs</span>
+        </div>
+        <div class="capacity-bar-track">
+          <div class="capacity-bar-fill" id="capBar" style="width:0%;background:var(--green)"></div>
+        </div>
+        <div id="capStatus" class="hint" style="margin-top:4px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- 03 COSTS + RUSH -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Biaya Tambahan & Urgensi</span>
+      <span class="section-tag tag-gr">External Costs</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label class="field-label">Tingkat Urgensi / Rush</label>
+        <select id="urgency" onchange="calc()">
+          <option value="1.0">Normal — tenggat wajar (1.0×)</option>
+          <option value="1.25">Agak Mendadak — &lt; 1 minggu (1.25×)</option>
+          <option value="1.5">Rush — deadline &lt; 3 hari (1.5×)</option>
+          <option value="2.0">Sangat Mendadak — hari ini/besok (2.0×)</option>
+        </select>
+        <div class="hint mt8">Rush multiplier diterapkan ke seluruh harga sebagai kompensasi gangguan jadwal recurring</div>
+      </div>
+      <div class="divider"></div>
+      <label class="field-label">Material & Biaya Langsung</label>
+      <div class="costs-list" id="costsList"></div>
+      <div class="add-cost-row">
+        <input type="text" id="cName" placeholder="Nama biaya (misal: Font license)">
+        <input type="number" id="cAmt" placeholder="Jumlah (Rp)" min="0">
+        <button class="btn-add" onclick="addCost()">+ Tambah</button>
+      </div>
+      <div class="divider"></div>
+      <div class="field">
+        <label class="field-label">Buffer Harga Rekomendasi</label>
+        <div class="input-wrap">
+          <input type="number" id="buffer" value="15" min="0" max="99" oninput="calc()">
+          <span class="input-suffix">% di atas harga minimum</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- 04 VALUE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Value-Based Adjuster</span>
+      <span class="section-tag tag-warn">Opsional</span>
+    </div>
+    <div class="section-body">
+      <div class="toggle-row">
+        <span class="toggle-label">Aktifkan penyesuaian berdasarkan nilai proyek bagi klien</span>
+        <label class="toggle">
+          <input type="checkbox" id="valueToggle" onchange="toggleValue()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="value-optional" id="valueFields">
+        <div class="field">
+          <label class="field-label">Estimasi nilai/dampak proyek bagi klien (Rp)</label>
+          <div class="input-wrap">
+            <span class="input-prefix">Rp</span>
+            <input type="number" id="clientValue" value="" min="0" oninput="calc()" placeholder="500000000">
+          </div>
+          <div class="value-hint" id="valueHint">Masukkan perkiraan nilai bisnis proyek ini bagi klien Anda</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider" style="height:16px"></div>
+
+  <!-- RESULTS -->
+  <div class="results-section">
+    <div class="results-header">
+      <span class="section-num">→</span>
+      <span class="section-title">Hasil Kalkulasi</span>
+    </div>
+    <div id="priceTrio" class="price-trio two-col">
+      <div class="price-cell min">
+        <div class="pc-label">Harga Minimum</div>
+        <div class="pc-amount" id="resMin">—</div>
+        <div class="pc-sub">break-even + margin</div>
+      </div>
+      <div class="price-cell rec">
+        <div class="pc-label">Harga Rekomendasi</div>
+        <div class="pc-amount" id="resRec">—</div>
+        <div class="pc-sub">+ buffer + rush</div>
+      </div>
+      <div class="price-cell val" id="valCell" style="display:none">
+        <div class="pc-label">Value-Adjusted</div>
+        <div class="pc-amount" id="resVal">—</div>
+        <div class="pc-sub">berbasis dampak klien</div>
+      </div>
+    </div>
+    <table class="breakdown-table"><tbody id="breakdownBody"></tbody></table>
+    <div class="rate-row">
+      <span>Effective hourly rate (rekomendasi)</span>
+      <span id="effRate">—</span>
+    </div>
+    <div class="alerts" id="alerts"></div>
+  </div>
+
+</div>
+
+<script>
+let teamRows = [
+  { name: 'Desainer A (Motion)', hours: 10, rate: 55000 },
+  { name: 'Desainer D (All-rounder)', hours: 5, rate: 55000 },
+];
+let costs = [
+  { name: 'Stock assets', amount: 150000 },
+];
+
+function renderTeam() {
+  const tbody = document.getElementById('teamBody');
+  tbody.innerHTML = teamRows.map((r, i) => `
+    <tr>
+      <td><div class="input-wrap"><input type="text" value="${r.name}" oninput="teamRows[${i}].name=this.value;calc()" style="font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:400;"></div></td>
+      <td style="width:80px"><div class="input-wrap"><input type="number" value="${r.hours}" min="0" oninput="teamRows[${i}].hours=parseFloat(this.value)||0;renderTeam();calc()"></div></td>
+      <td style="width:130px"><div class="input-wrap"><input type="number" value="${r.rate}" min="0" oninput="teamRows[${i}].rate=parseFloat(this.value)||0;renderTeam();calc()"></div></td>
+      <td style="font-family:var(--mono);font-size:0.8rem;white-space:nowrap;padding-left:12px">${fmtRp(r.hours * r.rate)}</td>
+      <td><button class="btn-remove" onclick="removeTeamRow(${i})">×</button></td>
+    </tr>`).join('');
+  const total = teamRows.reduce((s,r)=>s+r.hours*r.rate,0);
+  document.getElementById('laborTotal').textContent = fmtRp(total);
+}
+
+function addTeamRow() {
+  teamRows.push({ name: 'Desainer —', hours: 8, rate: 55000 });
+  renderTeam(); calc();
+}
+function removeTeamRow(i) {
+  if (teamRows.length <= 1) return;
+  teamRows.splice(i,1);
+  renderTeam(); calc();
+}
+
+function renderCosts() {
+  document.getElementById('costsList').innerHTML = costs.map((c,i) => `
+    <div class="cost-row">
+      <span class="cost-name">${c.name}</span>
+      <span class="cost-val">${fmtRp(c.amount)}</span>
+      <button class="btn-remove" onclick="removeCost(${i})">×</button>
+    </div>`).join('');
+}
+function addCost() {
+  const n = document.getElementById('cName').value.trim();
+  const a = parseFloat(document.getElementById('cAmt').value);
+  if (!n || isNaN(a) || a < 0) return;
+  costs.push({ name: n, amount: a });
+  document.getElementById('cName').value = '';
+  document.getElementById('cAmt').value = '';
+  renderCosts(); calc();
+}
+function removeCost(i) { costs.splice(i,1); renderCosts(); calc(); }
+
+function toggleValue() {
+  const on = document.getElementById('valueToggle').checked;
+  document.getElementById('valueFields').classList.toggle('active', on);
+  calc();
+}
+
+function fmtRp(n) {
+  if (!n && n !== 0) return '—';
+  return 'Rp\u00a0' + Math.round(n).toLocaleString('id-ID');
+}
+function fmtRpShort(n) {
+  if (n >= 1e9) return 'Rp\u00a0' + (n/1e9).toFixed(1).replace('.',',') + '\u00a0M';
+  if (n >= 1e6) return 'Rp\u00a0' + (n/1e6).toFixed(1).replace('.',',') + '\u00a0jt';
+  if (n >= 1e3) return 'Rp\u00a0' + (n/1e3).toFixed(0) + '\u00a0rb';
+  return fmtRp(n);
+}
+
+function calc() {
+  const laborCost = teamRows.reduce((s,r)=>s+r.hours*r.rate,0);
+  const totalHours = teamRows.reduce((s,r)=>s+r.hours,0);
+  const pmPct = (parseFloat(document.getElementById('pmFee').value)||0)/100;
+  const marginPct = (parseFloat(document.getElementById('margin').value)||0)/100;
+  const bufferPct = (parseFloat(document.getElementById('buffer').value)||0)/100;
+  const urgency = parseFloat(document.getElementById('urgency').value)||1;
+  const totalMaterials = costs.reduce((s,c)=>s+c.amount,0);
+  const totalAvail = parseFloat(document.getElementById('totalAvail').value)||0;
+  const recurringHrs = parseFloat(document.getElementById('recurringHrs').value)||0;
+
+  const pmCost = laborCost * pmPct;
+  const baseCost = laborCost + pmCost + totalMaterials;
+  const minPrice = marginPct < 1 ? baseCost / (1 - marginPct) : baseCost * 2;
+  const recBeforeRush = minPrice * (1 + bufferPct);
+  const recPrice = recBeforeRush * urgency;
+
+  // Capacity
+  const freeHrs = totalAvail - recurringHrs;
+  const usedPct = freeHrs > 0 ? Math.min((totalHours / freeHrs) * 100, 120) : 100;
+  const over = totalHours > freeHrs;
+  document.getElementById('capLabel1').textContent = `Sisa kapasitas: ${freeHrs} hrs`;
+  document.getElementById('capLabel2').textContent = `Proyek ini butuh: ${totalHours} hrs`;
+  const bar = document.getElementById('capBar');
+  bar.style.width = Math.min(usedPct,100) + '%';
+  bar.style.background = over ? '#b83c2a' : usedPct > 80 ? '#c47a1a' : '#4a6741';
+  const cs = document.getElementById('capStatus');
+  if (over) { cs.textContent = `⚠ Overcapacity! Butuh ${totalHours - freeHrs} hrs lembur atau outsource.`; cs.style.color='var(--danger)'; }
+  else if (usedPct > 80) { cs.textContent = `Kapasitas ketat (${Math.round(usedPct)}% terpakai). Masih bisa, tapi awasi kualitas.`; cs.style.color='var(--warn)'; }
+  else { cs.textContent = `Kapasitas aman — ${Math.round(freeHrs - totalHours)} hrs tersisa setelah proyek ini.`; cs.style.color='var(--green)'; }
+
+  // Value
+  const valueOn = document.getElementById('valueToggle').checked;
+  const clientValue = parseFloat(document.getElementById('clientValue').value)||0;
+  let valuePrice = 0;
+  if (valueOn && clientValue > 0) {
+    valuePrice = Math.max(clientValue * 0.12, recPrice);
+    const ratio = (recPrice / clientValue * 100).toFixed(1);
+    document.getElementById('valueHint').textContent =
+      `Harga cost-based kamu (${fmtRpShort(recPrice)}) hanya ${ratio}% dari nilai ${fmtRpShort(clientValue)} yang dirasakan klien. Value-adjusted price: ${fmtRpShort(valuePrice)}.`;
+  }
+
+  // Display prices
+  document.getElementById('resMin').textContent = fmtRpShort(minPrice);
+  document.getElementById('resRec').textContent = fmtRpShort(recPrice);
+  const trio = document.getElementById('priceTrio');
+  const valCell = document.getElementById('valCell');
+  if (valueOn && valuePrice > 0) {
+    valCell.style.display = '';
+    document.getElementById('resVal').textContent = fmtRpShort(valuePrice);
+    trio.className = 'price-trio';
+  } else {
+    valCell.style.display = 'none';
+    trio.className = 'price-trio two-col';
+  }
+
+  const effRate = totalHours > 0 ? (recPrice - totalMaterials) / totalHours : 0;
+  document.getElementById('effRate').textContent = totalHours > 0 ? fmtRp(effRate) + ' / hr' : '—';
+
+  // Breakdown
+  document.getElementById('breakdownBody').innerHTML = [
+    ['Labor', fmtRp(laborCost)],
+    [`PM & Koordinasi (${Math.round(pmPct*100)}%)`, fmtRp(pmCost)],
+    ['Material & Biaya Langsung', fmtRp(totalMaterials)],
+    ['Base Cost', fmtRp(baseCost)],
+    [`Margin (${Math.round(marginPct*100)}%)`, fmtRp(minPrice - baseCost)],
+    [`Buffer (${Math.round(bufferPct*100)}%)`, fmtRp(recBeforeRush - minPrice)],
+    urgency !== 1 ? [`Rush Multiplier (${urgency}×)`, fmtRp(recPrice - recBeforeRush)] : null,
+  ].filter(Boolean).map(([l,v]) =>
+    `<tr><td class="bd-label">${l}</td><td class="bd-val">${v}</td></tr>`
+  ).join('') + `<tr class="bd-total"><td>Total Rekomendasi</td><td>${fmtRp(recPrice)}</td></tr>`;
+
+  // Alerts
+  const aa = [];
+  if (over) aa.push({ t:'danger', i:'⚡', h:'Overcapacity!', m:`Tim butuh ${totalHours} jam tapi kapasitas bebas hanya ${freeHrs} jam. Kamu perlu lembur atau outsource. Pertimbangkan menaikkan harga untuk menutup biaya tambahan.` });
+  if (urgency >= 1.5) aa.push({ t:'warn', i:'⏰', h:'Rush Project', m:`Multiplier ${urgency}× diterapkan. Harga naik ${fmtRp(recPrice - recBeforeRush)} sebagai kompensasi gangguan jadwal recurring kamu.` });
+  if (teamRows.length >= 3) aa.push({ t:'info', i:'👥', h:'Tim Besar', m:`Proyek ${teamRows.length} orang — PM fee ${Math.round(pmPct*100)}% (${fmtRp(pmCost)}) sudah ditambahkan otomatis untuk biaya koordinasi.` });
+  if (marginPct < 0.15) aa.push({ t:'warn', i:'📉', h:'Margin Tipis', m:`Margin ${Math.round(marginPct*100)}% di bawah threshold aman 15%. Satu revisi besar bisa membuatmu impas.` });
+  else if (marginPct >= 0.25) aa.push({ t:'good', i:'✓', h:'Margin Sehat', m:`Margin ${Math.round(marginPct*100)}% memberi ruang aman untuk revisi, ketidakpastian, dan pertumbuhan. Posisi bagus.` });
+  if (valueOn && valuePrice > recPrice * 1.3) aa.push({ t:'info', i:'💡', h:'Value-Based Opportunity', m:`Klien mendapat nilai ${fmtRpShort(clientValue)} — ada ruang naik ke ${fmtRpShort(valuePrice)} (+${Math.round(valuePrice/recPrice*100-100)}% vs cost-based). Jangan tinggalkan uang di meja.` });
+
+  document.getElementById('alerts').innerHTML = aa.map(a =>
+    `<div class="alert alert-${a.t}"><span class="alert-icon">${a.i}</span><div><strong>${a.h}</strong>${a.m}</div></div>`
+  ).join('');
+}
+
+renderTeam();
+renderCosts();
+calc();
+</script>
+</body>
+</html>
